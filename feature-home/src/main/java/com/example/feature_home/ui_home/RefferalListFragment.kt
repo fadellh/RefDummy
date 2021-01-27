@@ -24,6 +24,7 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
     private val viewModel : HomeViewModel by viewModels()
     //private lateinit var holder : HomeViewHolder()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -32,6 +33,8 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
         val rvHome = view.findViewById<RecyclerView>(R.id.rvRefList)
         val etName = view.findViewById<EditText>(R.id.etPatientName)
         val btnAdd = view.findViewById<MaterialButton>(R.id.btnConfirm)
+        val btnSortName = view.findViewById<MaterialButton>(R.id.btnSortName)
+       // val
 
         val adapter = HomeViewHolder()
         rvHome.layoutManager = LinearLayoutManager(requireContext())
@@ -55,6 +58,8 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
             }
         })
 
+
+
         btnAdd.setOnClickListener {
             val checkName = etName.text.toString()
             if(checkName != ""){
@@ -68,8 +73,15 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
         }
 
         btnFilter.setOnClickListener {
-            findNavController().navigate(R.id.action_refferalListFragment_to_filterFragment)
+            //findNavController().navigate(R.id.action_refferalListFragment_to_filterFragment)
+            viewModel.setFilterOrSort(false, filter = true)
         }
+
+        btnSortName.setOnClickListener {
+            viewModel.setFilterOrSort(true, filter = false)
+        }
+
+
 
     }
 

@@ -20,14 +20,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import androidx.navigation.Navigation as Navigation1
 
-@AndroidEntryPoint
 internal class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_activity)
 
-        val bottomNav = findViewById<BottomNavigationView>(R.id.btnNav)
+     /*   val bottomNav = findViewById<BottomNavigationView>(R.id.btnNav)
 
         bottomNav.setupWithNavController(navHostFragment.findNavController())
 
@@ -38,7 +37,7 @@ internal class HomeActivity : AppCompatActivity() {
                             bottomNav.visibility = View.VISIBLE
                         else -> bottomNav.visibility = View.GONE
                     }
-                }
+                }*/
 
 
     }

@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Featurehome">
-        <activity android:name=".ui_home.HomeActivity" android:launchMode="singleTask">
+        <activity android:name=".ui_home.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
