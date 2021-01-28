@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/sp1" android:title="Dokter Umum"/>
+    <item android:id="@+id/sp2" android:title="Kulit"/>
+    <item android:id="@+id/sp3" android:title="THT"/>
+    <item android:id="@+id/sp4" android:title="Bedah"/>
+</menu>

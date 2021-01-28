@@ -2,9 +2,11 @@ package com.example.feature_home.ui_home
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -45,7 +47,7 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
         })
 
         // viewModel.getRoomData()
-        //viewModel.getDataReferral()
+        viewModel.getDataReferral()
         viewModel.refResponse.observe(viewLifecycleOwner, Observer { response ->
             if(response.isSuccessful){
                 val result = response.body()!!
@@ -66,6 +68,9 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
                // val ref = com.example.feature_home.data.persistance.entity.RefferalList(id=0, patientName = checkName,status = 0)
                 val request = RefferalListRequest(patientName = checkName)
                 viewModel.createPatient(request)
+                Toast.makeText(requireContext(),"$checkName successfully Add",Toast.LENGTH_LONG).also {
+                    toast -> toast.setGravity(Gravity.CENTER,0,0)
+                }.show()
                // viewModel.addDataPatient(ref)
             }else{
                 Log.d("coba","Slaah")

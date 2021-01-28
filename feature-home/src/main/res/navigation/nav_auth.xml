@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_auth"
+    app:startDestination="@id/welcomeAuthFragment">
+    <fragment
+        android:id="@+id/welcomeAuthFragment"
+        android:name="com.example.feature_home.ui_auth.WelcomeAuthFragment"
+        android:label="WelcomeAuthFragment" >
+        <action
+            android:id="@+id/action_welcomeAuthFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_welcomeAuthFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.feature_home.ui_auth.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_formDoctorFragment"
+            app:destination="@id/formDoctorFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_formSharp"
+            app:destination="@id/formSharp" />
+    </fragment>
+    <fragment
+        android:id="@+id/formDoctorFragment"
+        android:name="com.example.feature_home.ui_auth.FormDoctorFragment"
+        android:label="fragment_form_doctor"
+        tools:layout="@layout/fragment_form_doctor" >
+        <action
+            android:id="@+id/action_formDoctorFragment_to_formSharp"
+            app:destination="@id/formSharp" />
+        <argument
+            android:name="isDoctor"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/formAgentFragment"
+        android:name="com.example.feature_home.ui_auth.FormAgentFragment"
+        android:label="fragment_form_agent"
+        tools:layout="@layout/fragment_form_agent" />
+    <fragment
+        android:id="@+id/formSharp"
+        android:name="com.example.feature_home.ui_auth.FormSharp"
+        android:label="fragment_form_sharp"
+        tools:layout="@layout/fragment_form_sharp" >
+        <action
+            android:id="@+id/action_formSharp_to_formDoctorFragment"
+            app:destination="@id/formDoctorFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.feature_home.ui_home.HomeActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>

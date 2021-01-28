@@ -35,7 +35,7 @@ internal class HomeViewModel @ViewModelInject constructor(
         viewModelScope.launch {
 
             val response : Response<List<RefferalList>> = refferalRepository.getAllListReferral()
-            refResponse.value = response
+            _readAllDataAsFlow.value = response.body()
         }
     }
 
