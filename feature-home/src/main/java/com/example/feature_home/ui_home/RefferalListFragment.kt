@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.feature_home.R
+import com.example.feature_home.data.api.Resource
 import com.example.feature_home.data.api.request.RefferalListRequest
 import com.example.feature_home.data.domain.RefferalList
 import com.example.feature_home.data.persistance.entity.toDomain
@@ -36,6 +38,7 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
         val etName = view.findViewById<EditText>(R.id.etPatientName)
         val btnAdd = view.findViewById<MaterialButton>(R.id.btnConfirm)
         val btnSortName = view.findViewById<MaterialButton>(R.id.btnSortName)
+        val progBar = view.findViewById<ProgressBar>(R.id.rvProgressBar)
        // val
 
         val adapter = HomeViewHolder()
@@ -43,20 +46,23 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
         rvHome.adapter = adapter
 
         viewModel.readAllDataAsFlow.observe(viewLifecycleOwner, Observer<List<RefferalList>> { res ->
-            adapter.setData(res)
+            //adapter.setData(res)
         })
 
         // viewModel.getRoomData()
-        viewModel.getDataReferral()
-        viewModel.refResponse.observe(viewLifecycleOwner, Observer { response ->
-            if(response.isSuccessful){
-                val result = response.body()!!
-                val adapter = HomeViewHolder()
-                rvHome.layoutManager = LinearLayoutManager(context)
-                rvHome.adapter = adapter
-                adapter.setData(result)
-            }else{
-                Log.d("coba2","aggal")
+        //viewModel.getDataReferral()
+        viewModel.getDataReferralAsState()
+        viewModel.readAllDataAsFlowState.observe(viewLifecycleOwner, Observer { response ->
+            when(response){
+                is Resource.Loading -> {progBar.visibility = View.VISIBLE}
+                is Resource.Success -> {
+                    progBar.visibility = View.GONE
+                    adapter.setData(response.data!!)
+                }
+                is Resource.Error -> {
+                    progBar.visibility = View.GONE
+                    Log.d("cobares","${response.message}")
+                }
             }
         })
 
@@ -85,8 +91,6 @@ class RefferalListFragment: Fragment(R.layout.fragment_refferal_list){
         btnSortName.setOnClickListener {
             viewModel.setFilterOrSort(true, filter = false)
         }
-
-
 
     }
 

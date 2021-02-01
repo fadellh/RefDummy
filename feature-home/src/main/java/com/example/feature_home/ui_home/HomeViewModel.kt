@@ -6,11 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.feature_home.data.api.Resource
 import com.example.feature_home.data.api.request.RefferalListRequest
+import com.example.feature_home.data.api.response.RefferalListResponse
+import com.example.feature_home.data.api.response.toDomain
 import com.example.feature_home.data.domain.RefferalList
 import com.example.feature_home.data.repository.RefferalRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -24,6 +26,9 @@ internal class HomeViewModel @ViewModelInject constructor(
 
     private val _readAllDataAsFlow = MutableLiveData<List<RefferalList>>()
     val readAllDataAsFlow : LiveData<List<RefferalList>> = _readAllDataAsFlow
+
+    private val _readAllDataAsFlowState = MutableLiveData<Resource<List<RefferalList>>>()
+    val readAllDataAsFlowState : LiveData<Resource<List<RefferalList>>> = _readAllDataAsFlowState
 
     var refResponse : MutableLiveData<Response<List<RefferalList>>> = MutableLiveData()
 
@@ -71,4 +76,25 @@ internal class HomeViewModel @ViewModelInject constructor(
     fun setFilterOrSort (sortPatientName: Boolean,filter: Boolean, status : Int = 1 ) {
         checkFilterOrSort(sortPatientName, filter, status)
     }
+
+
+    fun getDataReferralAsState () {
+        viewModelScope.launch {
+            _readAllDataAsFlowState.postValue(Resource.Loading())
+            val response = refferalRepository.getAllListReferralAsState()
+            delay(5000)
+            response.collect{ _readAllDataAsFlowState.value = it}
+          //  _readAllDataAsFlowState.postValue(response)
+        }
+    }
+
+    private fun handleResponse(response: Response<List<RefferalListResponse>>) : Resource<List<RefferalList>> {
+        if(response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse.map { it.toDomain() })
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
 }
